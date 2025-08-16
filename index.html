@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Knowledge Quest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 overflow-hidden">
+
+    <div id="quiz-app" class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg mx-auto quiz-container flex flex-col justify-between">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-6">
+            <span class="text-pink-500">🧠</span> Ultimate Knowledge Quest <span class="text-purple-500">💡</span>
+        </h1>
+
+        <div id="start-screen" class="text-center">
+            <p class="text-lg text-gray-700 mb-8">Ready for a splash of knowledge? Choose your adventure!</p>
+
+            <div class="mb-6">
+                <label for="category-select" class="block text-md font-semibold text-gray-700 mb-2">Select Category:</label>
+                <select id="category-select" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="All">All Categories</option>
+                </select>
+            </div>
+
+            <div class="mb-8">
+                <label for="difficulty-select" class="block text-md font-semibold text-gray-700 mb-2">Select Difficulty:</label>
+                <select id="difficulty-select" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="All">All Difficulties</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+
+            <button id="start-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+                Start Quest!
+            </button>
+        </div>
+
+        <div id="quiz-screen" class="hidden flex-1 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-sm font-semibold text-gray-500">Question <span id="question-number">1</span> of <span id="total-questions">5</span></p>
+                    <p class="text-lg font-bold text-gray-800">Time: <span id="quiz-timer">00:00</span></p>
+                    <p class="text-lg font-bold text-gray-800">Q-Time: <span id="question-countdown">10</span>s</p>
+                </div>
+
+                <div id="multimedia-container" class="mb-4"></div>
+
+                <p id="question-text" class="text-xl md:text-2xl font-semibold text-gray-800 mb-6 leading-relaxed">
+                    Loading question...
+                </p>
+
+                <div id="options-container" class="space-y-4">
+                </div>
+
+                <div class="flex justify-around mt-6">
+                    <button id="fifty-fifty-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-semibold py-2 px-4 rounded-full shadow transition duration-300 ease-in-out" disabled>
+                        50/50 (<span id="fifty-fifty-count">1</span>)
+                    </button>
+                    <button id="hint-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold py-2 px-4 rounded-full shadow transition duration-300 ease-in-out" disabled>
+                        Hint (<span id="hint-count">1</span>)
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-8">
+                <button id="prev-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-6 rounded-lg transition duration-300 ease-in-out opacity-75 cursor-not-allowed" disabled>
+                    Previous
+                </button>
+                <button id="next-btn" class="bg-blue-400 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow transition duration-300 ease-in-out">
+                    Next
+                </button>
+                <button id="submit-btn" class="hidden bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition duration-300 ease-in-out">
+                    Finish Quest!
+                </button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden text-center overflow-auto max-h-[calc(100vh-100px)]">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Quest Complete! 🎉</h2>
+            <p class="text-2xl text-gray-700 mb-4">You scored:</p>
+            <p id="final-score" class="text-5xl font-extrabold text-green-600 mb-4">0 / 0</p>
+            <p class="text-xl text-gray-700 mb-8">Time Taken: <span id="final-time" class="font-bold">00:00</span></p>
+
+            <div class="mb-8">
+                <label for="player-name" class="block text-md font-semibold text-gray-700 mb-2">Enter your name for the leaderboard:</label>
+                <input type="text" id="player-name" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Your Name">
+                <button id="save-score-btn" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg shadow transition duration-300 ease-in-out">
+                    Save Score
+                </button>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Your Achievements 🏅</h3>
+                <div id="achievements-display" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p class="text-gray-600">No new achievements unlocked.</p>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Leaderboard 🏆</h3>
+                <div id="leaderboard-display" class="bg-white p-4 rounded-lg shadow-md max-h-60 overflow-y-auto">
+                    <p class="text-gray-600">No scores yet. Be the first!</p>
+                </div>
+            </div>
+
+            <div class="text-left mt-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Quiz Review 🤔</h3>
+                <div id="quiz-review-container" class="space-y-6">
+                </div>
+            </div>
+
+            <button id="retake-quiz-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out mt-8">
+                Try Another Quest?
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
